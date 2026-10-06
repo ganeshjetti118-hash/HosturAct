@@ -1,0 +1,16 @@
+# Participant routes are deliberately public: players do not have host accounts.
+# Host management, CSV import, and AI generation keep the default JWT check.
+[functions.join-quiz]
+verify_jwt = false
+
+[functions.get-leaderboard]
+verify_jwt = false
+
+[functions.get-participant-result]
+verify_jwt = false
+
+[functions.submit-quiz]
+verify_jwt = false
+
+[functions.run-activity-code]
+verify_jwt = false
