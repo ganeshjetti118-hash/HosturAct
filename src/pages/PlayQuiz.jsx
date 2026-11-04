@@ -29,10 +29,14 @@ export default function PlayQuiz() {
     nickname = parsed?.nickname || '';
   } catch { activity = null; }
 
-  const items = activity?.items || [];
+  // Stabilise derived values in state so their references never change between renders.
+  // This is critical for the timer: the useEffect depends on [current, items], and if
+  // items were recomputed each render (new array ref) the countdown would restart on every
+  // setTimeLeft call — breaking the timer entirely.
+  const [items] = useState(() => activity?.items || []);
+  const [defaultTime] = useState(() => activity?.default_time_seconds || 30);
+  const [type] = useState(() => activity?.type || 'quiz');
   const total = items.length;
-  const defaultTime = activity?.default_time_seconds || 30;
-  const type = activity?.type || 'quiz';
   const meta = typeMeta(type);
 
   const [current, setCurrent] = useState(0);
